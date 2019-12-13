@@ -17,14 +17,13 @@ RUN apt-get install -y python python3 python-pip python3-pip &&\
 
 ENV NODE_OPTIONS=$NODE_OPTIONS--max-old-space-size=2098
 
-RUN mkdir plugins && cd plugins && \
-    curl https://marketplace.visualstudio.com/_apis/public/gallery/publishers/marus25/vsextensions/cortex-debug/0.3.1/vspackage -O -J --compressed && \
-    curl https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-python/vsextensions/python/2019.6.22090/vspackage -O -J --compressed
-
 COPY package.json package.json
 
 RUN yarn
 RUN yarn theia build
+
+COPY plugins plugins
+
 CMD ["yarn","start"]
 
 EXPOSE 80
